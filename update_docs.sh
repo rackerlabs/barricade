@@ -5,6 +5,7 @@ ECHO_BLUE () { echo -e "\033[0;34m${1}\033[0m"; }
 git checkout --orphan gh-pages-temp
 git reset .
 rm .gitignore
+rm update_docs.sh
 git pull https://github.com/rackerlabs/barricade.git master
 grunt jsdoc
 mv doc doc_temp
