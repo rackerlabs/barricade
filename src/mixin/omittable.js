@@ -18,7 +18,16 @@
     * @mixin
     * @memberof Barricade
     */
-    Omittable = Blueprint.create(function (isUsed) {
+    Omittable = Blueprint.create(function () {
+        var self = this,
+            isUsed;
+
+        function onChange(changeType) {
+            if (changeType !== 'isUsed') {
+                isUsed = !self.isEmpty();
+            }
+        }
+
         /**
         * Returns whether object is being used or not.
         * @method isUsed
@@ -40,10 +49,10 @@
         */
         this.setIsUsed = function (newUsedValue) {
             isUsed = !!newUsedValue;
-            return this;
+            return this.emit('change', 'isUsed');
         };
 
-        this.on('change', function () {
-            isUsed = !this.isEmpty();
-        });
+        this.on('change', onChange);
+        this.on('childChange', onChange);
+        onChange();
     });

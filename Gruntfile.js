@@ -301,6 +301,7 @@ module.exports = function (grunt) {
                         'test/mutable_object_spec.js',
                         'test/mixin/identifiable_spec.js',
                         'test/mixin/observable_spec.js',
+                        'test/mixin/omittable_spec.js',
                         'test/tag/required_spec.js',
                         'test/tag/constraints_spec.js',
                         'test/tag/enum_spec.js',
