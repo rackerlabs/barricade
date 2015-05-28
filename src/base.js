@@ -42,8 +42,7 @@
         */
         create: function (json, parameters) {
             var self = this.extend({}),
-                schema = self._schema,
-                isUsed;
+                schema = self._schema;
 
             self._parameters = parameters = parameters || {};
 
@@ -51,14 +50,14 @@
                 json = schema['@inputMassager'](json);
             }
 
-            isUsed = self._setData(json);
+            self._setData(json);
 
             if (schema.hasOwnProperty('@toJSON')) {
                 self.toJSON = schema['@toJSON'];
             }
 
             Observable.call(self);
-            Omittable.call(self, isUsed);
+            Omittable.call(self);
             Deferrable.call(self, schema);
             Validatable.call(self, schema);
 
@@ -94,22 +93,17 @@
         * @private
         */
         _setData: function(json) {
-            var isUsed = true,
-                type = this._schema['@type'];
+            var type = this._schema['@type'];
 
             if (getType(json) !== type) {
                 if (json) {
                     logError("Type mismatch. JSON: ", json,
                              "schema: ", this._schema);
-                } else {
-                    isUsed = false;
                 }
                 // Replace bad type (does not change original)
                 json = this._getDefaultValue();
             }
             this._data = this._sift(json, this._parameters);
-
-            return isUsed;
         },
 
         /**
