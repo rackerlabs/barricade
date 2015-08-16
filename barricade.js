@@ -72,17 +72,6 @@ var Barricade = (function () {
             return object;
         }
 
-        function extend(extension) {
-            return Object.keys(extension).reduce(function (object, prop) {
-                return Object.defineProperty(object, prop, {
-                    enumerable: true,
-                    writable: true,
-                    configurable: true,
-                    value: extension[prop]
-                });
-            }, Object.create(this));
-        }
-
         function forInKeys(obj) {
             var key, keys = [];
             for (key in obj) { keys.push(key); }
@@ -125,10 +114,21 @@ var Barricade = (function () {
                     extension._schema = deepClone(this._schema) || {};
                     merge(extension._schema, schema);
                 }
-                return extend.call(this, extension);
+                return Extendable.addProps(Object.create(this), extension);
             }
         });
     });
+
+    Extendable.addProps = function (target, props) {
+        return Object.keys(props).reduce(function (object, prop) {
+            return Object.defineProperty(object, prop, {
+                enumerable: true,
+                writable: true,
+                configurable: true,
+                value: props[prop]
+            });
+        }, target);
+    };
 
     /**
     * @mixin
