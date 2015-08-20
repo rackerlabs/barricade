@@ -17,18 +17,21 @@
     * @memberof Barricade
     * @extends Barricade.Arraylike
     */
-    MutableObject = Arraylike.extend({
-        /**
-        * @memberof Barricade.MutableObject
-        * @private
-        */
-        _elSymbol: '?',
+    MutableObject = Blueprint.create(function () {
+        Arraylike.call(this);
+        var oldPush = this.push;
 
         /**
         * @memberof Barricade.MutableObject
         * @private
         */
-        _getJSON: function (options) {
+        this._elSymbol = '?';
+
+        /**
+        * @memberof Barricade.MutableObject
+        * @private
+        */
+        this._getJSON = function (options) {
             return this.toArray().reduce(function (jsonOut, element) {
                 if (jsonOut.hasOwnProperty(element.getID())) {
                     logError("ID found multiple times: " + element.getID());
@@ -37,18 +40,18 @@
                 }
                 return jsonOut;
             }, {});
-        },
+        };
 
         /**
         * @memberof Barricade.MutableObject
         * @private
         */
-        _sift: function (json) {
+        this._sift = function (json) {
             return Object.keys(json).map(function (key) {
                 return this._keyClassCreate(this._elSymbol, this._elementClass,
                                             json[key], {id: key});
             }, this);
-        },
+        };
 
         /**
         * Returns true if MutableObject contains `element`, false otherwise.
@@ -57,11 +60,11 @@
         * @param element Element to check for.
         * @returns {Boolean}
         */
-        contains: function (element) {
+        this.contains = function (element) {
             return this.toArray().some(function (value) {
                 return element === value;
             });
-        },
+        };
 
         /**
         * Retrieves element with specified ID.
@@ -70,9 +73,9 @@
         * @param {String} id
         * @returns {Element}
         */
-        getByID: function (id) {
+        this.getByID = function (id) {
             return this.get(this.getPosByID(id));
-        },
+        };
 
         /**
         * Returns an array of the IDs of the elements of the MutableObject.
@@ -80,11 +83,11 @@
         * @instance
         * @returns {Array}
         */
-        getIDs: function () {
+        this.getIDs = function () {
             return this.toArray().map(function (value) {
                 return value.getID();
             });
-        },
+        };
 
         /**
         * Returns index of the element with the specified ID.
@@ -93,9 +96,9 @@
         * @param {String} id
         * @returns {Integer}
         */
-        getPosByID: function (id) {
+        this.getPosByID = function (id) {
             return this.getIDs().indexOf(id);
-        },
+        };
 
         /**
         * Adds a new element to the MutableObject.
@@ -109,13 +112,13 @@
                  least an `id` property is required.
         * @returns {self}
         */
-        push: function (newJson, newParameters) {
+        this.push = function (newJson, newParameters) {
             if (!this._safeInstanceof(newJson, this._elementClass) &&
                     (getType(newParameters) !== Object ||
                     !newParameters.hasOwnProperty('id'))) {
                 logError('ID should be passed in with parameters object');
             } else {
-                return Arraylike.push.call(this, newJson, newParameters);
+                return oldPush.call(this, newJson, newParameters);
             }
-        }
+        };
     });

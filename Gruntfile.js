@@ -173,6 +173,8 @@ module.exports = function (grunt) {
                 jshint: {
                     globals: {
                         'Arraylike': false,
+                        'Blueprint': false,
+                        'Extendable': false,
                         'getType': false,
                         'logError': false,
                         'MutableObject': true
