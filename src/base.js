@@ -92,6 +92,14 @@
         * @memberof Barricade.Base
         * @private
         */
+        _getJSON: function () {
+            return this._data;
+        },
+
+        /**
+        * @memberof Barricade.Base
+        * @private
+        */
         _setData: function(json) {
             var type = this._schema['@type'];
 
@@ -120,8 +128,8 @@
         * @memberof Barricade.Base
         * @private
         */
-        _sift: function () {
-            throw new Error("sift() must be overridden in subclass");
+        _sift: function (json) {
+            return json;
         },
 
         /**
@@ -130,6 +138,16 @@
         */
         _getPrettyJSON: function (options) {
             return this._getJSON(options);
+        },
+
+        /**
+        * Retrieves the value.
+        * @memberof Barricade.Base
+        * @instance
+        * @returns {JSON}
+        */
+        get: function () {
+            return this._data;
         },
 
         /**
@@ -143,13 +161,23 @@
         },
 
         /**
+        * Returns true if the data is empty. This depends on the type; Arrays
+          and Objects are considered empty if they have no elements, while
+          Strings, Numbers, and Booleans are empty if they are equivalent to a
+          newly-constructed instance.
         * @memberof Barricade.Base
         * @instance
-        * @virtual
+        * @returns {Boolean}
         */
         isEmpty: function () {
-            throw new Error('Subclass should override isEmpty()');
+            if (this._schema['@type'] === Array) {
+                return !this._data.length;
+            } else if (this._schema['@type'] === Object) {
+                return !Object.keys(this._data).length;
+            }
+            return this._data === this._schema['@type']();
         },
+
 
         /**
         * Returns whether the Barricade object is required or not. Usually
@@ -161,6 +189,32 @@
         */
         isRequired: function () {
             return this._schema['@required'] !== false;
+        },
+
+        /**
+        * @memberof Barricade.Base
+        * @instance
+        * @param newVal
+        * @returns {self}
+        */
+        set: function (newVal) {
+            var schema = this._schema;
+
+            function typeMatches(newVal) {
+                return getType(newVal) === schema['@type'];
+            }
+
+            if (typeMatches(newVal) && this._validate(newVal)) {
+                this._data = newVal;
+                return this.emit('validation', 'succeeded')
+                           .emit('change');
+            } else if (this.hasError()) {
+                return this.emit('validation', 'failed');
+            }
+
+            logError("Setter - new value (", newVal, ")",
+                     " did not match schema: ", schema);
+            return this;
         },
 
         /**
