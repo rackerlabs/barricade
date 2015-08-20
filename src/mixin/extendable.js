@@ -65,11 +65,18 @@
             enumerable: false,
             writable: false,
             value: function (extension, schema) {
+                var self = Object.create(this);
+
+                if (getType(extension) === Function) {
+                    self = extension.call(self);
+                    extension = {};
+                }
+
                 if (schema) {
-                    extension._schema = deepClone(this._schema) || {};
+                    extension._schema = deepClone(self._schema) || {};
                     merge(extension._schema, schema);
                 }
-                return Extendable.addProps(Object.create(this), extension);
+                return Extendable.addProps(self, extension);
             }
         });
     });
