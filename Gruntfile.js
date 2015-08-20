@@ -153,7 +153,8 @@ module.exports = function (grunt) {
                 jshint: {
                     globals: {
                         'Array_': true,
-                        'Arraylike': false
+                        'Arraylike': false,
+                        'Blueprint': false
                     }
                 }
             }, {

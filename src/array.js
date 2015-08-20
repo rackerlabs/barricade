@@ -19,4 +19,6 @@
     * @extends Barricade.Arraylike
     * @memberof Barricade
     */
-    Array_ = Arraylike.extend({});
+    Array_ = Blueprint.create(function () {
+        Arraylike.call(this);
+    });
