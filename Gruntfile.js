@@ -158,7 +158,9 @@ module.exports = function (grunt) {
                 file: 'src/immutable_object.js',
                 jshint: {
                     globals: {
+                        'Blueprint': false,
                         'Container': false,
+                        'Extendable': false,
                         'ImmutableObject': true,
                         'logError': false,
                     }

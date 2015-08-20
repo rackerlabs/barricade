@@ -17,8 +17,11 @@
     * @memberof Barricade
     * @extends Barricade.Container
     */
-    ImmutableObject = Container.extend({
-        create: function (json, parameters) {
+    ImmutableObject = Blueprint.create(function () {
+        Container.call(this);
+        var oldCreate = this.create;
+
+        this.create = function (json, parameters) {
             var self = this;
             if (!this.hasOwnProperty('_keyClasses')) {
                 Object.defineProperty(this, '_keyClasses', {
@@ -31,27 +34,27 @@
                 });
             }
 
-            return Container.create.call(this, json, parameters);
-        },
+            return oldCreate.call(this, json, parameters);
+        };
 
         /**
         * @memberof Barricade.ImmutableObject
         * @private
         */
-        _sift: function (json) {
+        this._sift = function (json) {
             var self = this;
             return this.getKeys().reduce(function (objOut, key) {
                 objOut[key] =
                     self._keyClassCreate(key, self._keyClasses[key], json[key]);
                 return objOut;
             }, {});
-        },
+        };
 
         /**
         * @memberof Barricade.ImmutableObject
         * @private
         */
-        _doSet: function (key, newValue, newParameters) {
+        this._doSet = function (key, newValue, newParameters) {
             var oldVal = this._data[key];
 
             if (this._schema.hasOwnProperty(key)) {
@@ -68,13 +71,13 @@
                 logError('object does not have key: ', key,
                          ' schema: ', this._schema);
             }
-        },
+        };
 
         /**
         * @memberof Barricade.ImmutableObject
         * @private
         */
-        _getJSON: function (options) {
+        this._getJSON = function (options) {
             var data = this._data;
             return this.getKeys().reduce(function (jsonOut, key) {
                 if (options.ignoreUnused !== true || data[key].isUsed()) {
@@ -82,7 +85,7 @@
                 }
                 return jsonOut;
             }, {});
-        },
+        };
 
         /**
         * @callback Barricade.ImmutableObject.eachCB
@@ -100,7 +103,7 @@
                  Comparator in the form that JavaScript's Array.sort() expects
         * @returns {self}
         */
-        each: function (functionIn, comparatorIn) {
+        this.each = function (functionIn, comparatorIn) {
             var self = this,
                 keys = this.getKeys();
 
@@ -113,7 +116,7 @@
             });
 
             return this;
-        },
+        };
 
         /**
         * @memberof Barricade.Arraylike
@@ -121,9 +124,9 @@
         * @param {String} key
         * @returns {Element}
         */
-        get: function (key) {
+        this.get = function (key) {
             return this._data[key];
-        },
+        };
 
         /**
         * Returns all keys in the ImmutableObject
@@ -131,11 +134,11 @@
         * @instance
         * @returns {Array}
         */
-        getKeys: function () {
+        this.getKeys = function () {
             return Object.keys(this._schema).filter(function (key) {
                 return key.charAt(0) !== '@';
             });
-        },
+        };
 
         /**
         * Returns true if ImmutableObject has no keys, false otherwise.
@@ -143,7 +146,7 @@
         * @instance
         * @returns {Boolean}
         */
-        isEmpty: function () {
+        this.isEmpty = function () {
             return !Object.keys(this._data).length;
-        }
+        };
     });
