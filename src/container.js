@@ -17,7 +17,9 @@
     * @memberof Barricade
     * @extends Barricade.Base
     */
-    Container = Base.extend({
+    Container = Blueprint.create(function () {
+        var oldCreate = this.create;
+
         /**
         * Creates a `Container` instance.
         * @memberof Barricade.Container
@@ -25,8 +27,8 @@
         * @param {Object} parameters
         * @returns {Barricade.Container}
         */
-        create: function (json, parameters) {
-            var self = Base.create.call(this, json, parameters);
+        this.create = function (json, parameters) {
+            var self = oldCreate.call(this, json, parameters);
 
             return self.on('_addedElement', function (key) {
                 self._attachListeners(key);
@@ -35,13 +37,13 @@
                 self._attachListeners(index);
                 value.resolveWith(self);
             });
-        },
+        };
 
         /**
         * @memberof Barricade.Container
         * @private
         */
-        _attachListeners: function (key) {
+        this._attachListeners = function (key) {
             var self = this,
                 element = this.get(key),
                 slice = Array.prototype.slice,
@@ -74,23 +76,23 @@
             Object.keys(events).forEach(function (eName) {
                 element.on(eName, events[eName]);
             });
-        },
+        };
 
         /**
         * @memberof Barricade.Container
         * @private
         */
-        _getKeyClass: function (key) {
+        this._getKeyClass = function (key) {
             return this._schema[key].hasOwnProperty('@class')
                 ? this._schema[key]['@class']
                 : BarricadeMain.create(this._schema[key]);
-        },
+        };
 
         /**
         * @memberof Barricade.Container
         * @private
         */
-        _isCorrectType: function (instance, class_) {
+        this._isCorrectType = function (instance, class_) {
             var self = this;
 
             function isRefTo() {
@@ -106,27 +108,27 @@
 
             return this._safeInstanceof(instance, class_) ||
                 (class_._schema.hasOwnProperty('@ref') && isRefTo());
-        },
+        };
 
         /**
         * @memberof Barricade.Container
         * @private
         */
-        _keyClassCreate: function (key, keyClass, json, parameters) {
+        this._keyClassCreate = function (key, keyClass, json, parameters) {
             return this._schema[key].hasOwnProperty('@factory')
                 ? this._schema[key]['@factory'](json, parameters)
                 : keyClass.create(json, parameters);
-        },
+        };
 
         /**
         * @memberof Barricade.Container
         * @private
         */
-        _tryResolveOn: function (value) {
+        this._tryResolveOn = function (value) {
             if (!value.resolveWith(this)) {
                 this.emit('_resolveUp', value);
             }
-        },
+        };
 
         /**
         * @memberof Barricade.Container
@@ -135,10 +137,10 @@
         * @param {Element} value
         * @returns {self}
         */
-        set: function (key, value) {
+        this.set = function (key, value) {
             this.get(key).emit('removeFrom', this);
             this._doSet(key, value);
             this._attachListeners(key);
             return this;
-        }
+        };
     });

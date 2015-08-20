@@ -133,7 +133,9 @@ module.exports = function (grunt) {
                     globals: {
                         'BarricadeMain': false,
                         'Base': false,
-                        'Container': true
+                        'Blueprint': false,
+                        'Container': true,
+                        'Extendable': false
                     }
                 }
             }, {
