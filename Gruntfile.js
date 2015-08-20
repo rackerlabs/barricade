@@ -181,16 +181,6 @@ module.exports = function (grunt) {
                     }
                 }
             }, {
-                file: 'src/primitive.js',
-                jshint: {
-                    globals: {
-                        'Base': false,
-                        'getType': false,
-                        'logError': false,
-                        'Primitive': true
-                    }
-                }
-            }, {
                 file: 'src/core.js',
                 jshint: {
                     exported: [
@@ -212,8 +202,7 @@ module.exports = function (grunt) {
                         'InstanceofMixin': false,
                         'MutableObject': false,
                         'Observable': false,
-                        'Omittable': false,
-                        'Primitive': false
+                        'Omittable': false
                     }
                 }
             }, {

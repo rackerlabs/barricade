@@ -42,7 +42,7 @@ describe('Arrays', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.CustomString = Barricade.Primitive.extend({
+        this.namespace.CustomString = Barricade.Base.extend({
             _getPrettyJSON: function() {
                 return 'pretty ' + this._data;
             }

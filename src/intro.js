@@ -19,4 +19,4 @@ var Barricade = (function () {
     var Array_, Arraylike, BarricadeMain, Base, Blueprint, Container,
         Deferrable, Deferred, Enumerated, Extendable, Identifiable,
         ImmutableObject, InstanceofMixin, MutableObject, Observable, Omittable,
-        Primitive, Validatable;
+        Validatable;

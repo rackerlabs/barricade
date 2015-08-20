@@ -52,7 +52,6 @@
         'MutableObject': MutableObject,
         'Observable': Observable,
         'Omittable': Omittable,
-        'Primitive': Primitive,
         'create': function (schema) {
             function schemaIsMutable() {
                 return schema.hasOwnProperty('?');
@@ -71,7 +70,7 @@
             } else if (schema['@type'] === Array && '*' in schema) {
                 return Array_.extend({}, schema);
             }
-            return Primitive.extend({}, schema);
+            return Base.extend({}, schema);
         }
     };
 
