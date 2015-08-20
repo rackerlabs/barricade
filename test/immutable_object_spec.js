@@ -55,7 +55,7 @@ describe('Immutable Objects', function () {
     });
 
     it('should not be empty if keys are defined', function () {
-        var noKeys = Barricade.ImmutableObject.extend({}, {
+        var noKeys = Barricade.Base.extend(Barricade.ImmutableObject, {
                 '@type': Object
             }).create();
 

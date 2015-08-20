@@ -64,11 +64,11 @@
             }
 
             if (schema['@type'] === Object && schemaIsImmutable()) {
-                return ImmutableObject.extend({}, schema);
+                return Base.extend(ImmutableObject, schema);
             } else if (schema['@type'] === Object && schemaIsMutable()) {
-                return MutableObject.extend({}, schema);
+                return Base.extend(MutableObject, schema);
             } else if (schema['@type'] === Array && '*' in schema) {
-                return Array_.extend({}, schema);
+                return Base.extend(Array_, schema);
             }
             return Base.extend({}, schema);
         }
