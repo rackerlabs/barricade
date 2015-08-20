@@ -17,13 +17,16 @@
     * @memberof Barricade
     * @extends Barricade.Container
     */
-    Arraylike = Container.extend({
+    Arraylike = Blueprint.create(function () {
+        Container.call(this);
+        var oldCreate = this.create;
+
         /**
         * Creates an Arraylike.
         * @memberof Barricade.Arraylike
         * @returns {Barricade.Arraylike} New Arraylike instance.
         */
-        create: function (json, parameters) {
+        this.create = function (json, parameters) {
             if (!this.hasOwnProperty('_elementClass')) {
                 Object.defineProperty(this, '_elementClass', {
                     enumerable: false,
@@ -31,14 +34,14 @@
                     value: this._getKeyClass(this._elSymbol)
                 });
             }
-            return Container.create.call(this, json, parameters);
-        },
+            return oldCreate.call(this, json, parameters);
+        };
 
         /**
         * @memberof Barricade.Arraylike
         * @private
         */
-        _doSet: function (index, newVal, newParameters) {
+        this._doSet = function (index, newVal, newParameters) {
             var oldVal = this._data[index];
 
             this._data[index] = this._isCorrectType(newVal, this._elementClass)
@@ -47,34 +50,34 @@
                                        newVal, newParameters);
 
             this.emit('change', 'set', index, this._data[index], oldVal);
-        },
+        };
 
         /**
         * @memberof Barricade.Arraylike
         * @private
         */
-        _elSymbol: '*',
+        this._elSymbol = '*';
 
         /**
         * @memberof Barricade.Arraylike
         * @private
         */
-        _sift: function (json) {
+        this._sift = function (json) {
             return json.map(function (el) {
                 return this._keyClassCreate(
                     this._elSymbol, this._elementClass, el);
             }, this);
-        }, 
+        };
 
         /**
         * @memberof Barricade.Arraylike
         * @private
         */
-        _getJSON: function (options) {
+        this._getJSON = function (options) {
             return this._data.map(function (el) {
                 return el.toJSON(options);
             });
-        },
+        };
 
         /**
         * @callback Barricade.Arraylike.eachCB
@@ -92,7 +95,7 @@
                  Comparator in the form that JavaScript's Array.sort() expects
         * @returns {self}
         */
-        each: function (functionIn, comparatorIn) {
+        this.each = function (functionIn, comparatorIn) {
             var arr = this._data.slice();
 
             if (comparatorIn) {
@@ -104,7 +107,7 @@
             });
 
             return this;
-        },
+        };
 
         /**
         * @memberof Barricade.Arraylike
@@ -112,9 +115,9 @@
         * @param {Integer} index
         * @returns {Element}
         */
-        get: function (index) {
+        this.get = function (index) {
             return this._data[index];
-        },
+        };
 
         /**
         * Returns true if no elements are present, false otherwise.
@@ -122,9 +125,9 @@
         * @instance
         * @returns {Boolean}
         */
-        isEmpty: function () {
+        this.isEmpty = function () {
             return !this._data.length;
-        },
+        };
 
         /**
         * Returns number of elements in Arraylike
@@ -132,9 +135,9 @@
         * @instance
         * @returns {Number}
         */
-        length: function () {
+        this.length = function () {
             return this._data.length;
-        },
+        };
 
         /**
         * Appends an element to the end of the Arraylike.
@@ -148,7 +151,7 @@
                  passed in.
         * @returns {self}
         */
-        push: function (newValue, newParameters) {
+        this.push = function (newValue, newParameters) {
             this._data.push(
                 this._isCorrectType(newValue, this._elementClass)
                     ? newValue
@@ -157,7 +160,7 @@
 
             return this.emit('_addedElement', this._data.length - 1)
                        .emit('change', 'add', this._data.length - 1);
-        },
+        };
 
         /**
         * Removes element at specified index.
@@ -166,11 +169,11 @@
         * @param {Integer} index
         * @returns {self}
         */
-        remove: function (index) {
+        this.remove = function (index) {
             this._data[index].emit('removeFrom', this);
             this._data.splice(index, 1);
             return this.emit('change', 'remove', index);
-        },
+        };
 
         /**
         * Returns an array containing the Arraylike's elements
@@ -178,7 +181,7 @@
         * @instance
         * @returns {Array}
         */
-        toArray: function () {
+        this.toArray = function () {
             return this._data.slice(); // Shallow copy to prevent mutation
-        }
+        };
     });
