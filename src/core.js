@@ -52,24 +52,8 @@
         'MutableObject': MutableObject,
         'Observable': Observable,
         'Omittable': Omittable,
+        'Schema': Schema,
         'create': function (schema) {
-            function schemaIsMutable() {
-                return schema.hasOwnProperty('?');
-            }
-
-            function schemaIsImmutable() {
-                return Object.keys(schema).some(function (key) {
-                    return key.charAt(0) !== '@' && key !== '?';
-                });
-            }
-
-            if (schema['@type'] === Object && schemaIsImmutable()) {
-                return Base.extend(ImmutableObject, schema);
-            } else if (schema['@type'] === Object && schemaIsMutable()) {
-                return Base.extend(MutableObject, schema);
-            } else if (schema['@type'] === Array && '*' in schema) {
-                return Base.extend(Array_, schema);
-            }
             return Base.extend({}, schema);
         }
     };

@@ -17,7 +17,7 @@
     * @memberof Barricade
     */
     Validatable = Blueprint.create(function (schema) {
-        var constraints = schema['@constraints'],
+        var constraints = schema.get('constraints'),
             error = null;
 
         if (getType(constraints) !== Array) {

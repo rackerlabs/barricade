@@ -19,23 +19,6 @@
     */
     ImmutableObject = Blueprint.create(function () {
         Container.call(this);
-        var oldCreate = this.create;
-
-        this.create = function (json, parameters) {
-            var self = this;
-            if (!this.hasOwnProperty('_keyClasses')) {
-                Object.defineProperty(this, '_keyClasses', {
-                    enumerable: false,
-                    writable: true,
-                    value: this.getKeys().reduce(function (classes, key) {
-                        classes[key] = self._getKeyClass(key);
-                        return classes;
-                    }, {})
-                });
-            }
-
-            return oldCreate.call(this, json, parameters);
-        };
 
         /**
         * @memberof Barricade.ImmutableObject
@@ -44,8 +27,9 @@
         this._sift = function (json) {
             var self = this;
             return this.getKeys().reduce(function (objOut, key) {
-                objOut[key] =
-                    self._keyClassCreate(key, self._keyClasses[key], json[key]);
+                objOut[key] = self._keyClassCreate(key,
+                                                   self.schema().keyClass(key),
+                                                   json[key]);
                 return objOut;
             }, {});
         };
@@ -57,19 +41,20 @@
         this._doSet = function (key, newValue, newParameters) {
             var oldVal = this._data[key];
 
-            if (this._schema.hasOwnProperty(key)) {
-                if (this._isCorrectType(newValue, this._keyClasses[key])) {
+            if (this.schema().hasKeyClass(key)) {
+                if (this._isCorrectType(newValue,
+                                        this.schema().keyClass(key))) {
                     this._data[key] = newValue;
                 } else {
                     this._data[key] =
-                        this._keyClassCreate(key, this._keyClasses[key],
+                        this._keyClassCreate(key, this.schema().keyClass(key),
                                              newValue, newParameters);
                 }
 
                 this.emit('change', 'set', key, this._data[key], oldVal);
             } else {
                 logError('object does not have key: ', key,
-                         ' schema: ', this._schema);
+                         ' keys: ', this.schema().keyClassList());
             }
         };
 
@@ -135,9 +120,7 @@
         * @returns {Array}
         */
         this.getKeys = function () {
-            return Object.keys(this._schema).filter(function (key) {
-                return key.charAt(0) !== '@';
-            });
+            return this.schema().keyClassList();
         };
 
         /**

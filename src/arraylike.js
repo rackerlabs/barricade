@@ -19,34 +19,18 @@
     */
     Arraylike = Blueprint.create(function () {
         Container.call(this);
-        var oldCreate = this.create;
-
-        /**
-        * Creates an Arraylike.
-        * @memberof Barricade.Arraylike
-        * @returns {Barricade.Arraylike} New Arraylike instance.
-        */
-        this.create = function (json, parameters) {
-            if (!this.hasOwnProperty('_elementClass')) {
-                Object.defineProperty(this, '_elementClass', {
-                    enumerable: false,
-                    writable: true,
-                    value: this._getKeyClass(this._elSymbol)
-                });
-            }
-            return oldCreate.call(this, json, parameters);
-        };
 
         /**
         * @memberof Barricade.Arraylike
         * @private
         */
         this._doSet = function (index, newVal, newParameters) {
-            var oldVal = this._data[index];
+            var oldVal = this._data[index],
+                elClass = this.schema().keyClass(this._elSymbol);
 
-            this._data[index] = this._isCorrectType(newVal, this._elementClass)
+            this._data[index] = this._isCorrectType(newVal, elClass)
                 ? this._data[index] = newVal
-                : this._keyClassCreate(this._elSymbol, this._elementClass,
+                : this._keyClassCreate(this._elSymbol, elClass,
                                        newVal, newParameters);
 
             this.emit('change', 'set', index, this._data[index], oldVal);
@@ -63,9 +47,10 @@
         * @private
         */
         this._sift = function (json) {
+            var elClass = this.schema().keyClass(this._elSymbol);
             return json.map(function (el) {
                 return this._keyClassCreate(
-                    this._elSymbol, this._elementClass, el);
+                    this._elSymbol, elClass, el);
             }, this);
         };
 
@@ -152,10 +137,11 @@
         * @returns {self}
         */
         this.push = function (newValue, newParameters) {
+            var elClass = this.schema().keyClass(this._elSymbol);
             this._data.push(
-                this._isCorrectType(newValue, this._elementClass)
+                this._isCorrectType(newValue, elClass)
                     ? newValue
-                    : this._keyClassCreate(this._elSymbol, this._elementClass,
+                    : this._keyClassCreate(this._elSymbol, elClass,
                                            newValue, newParameters));
 
             return this.emit('_addedElement', this._data.length - 1)

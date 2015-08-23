@@ -110,24 +110,6 @@ module.exports = function (grunt) {
                 file: 'src/util/deferred.js',
                 jshint: {globals: {'Deferred': true}}
             }, {
-                file: 'src/base.js',
-                jshint: {
-                    globals: {
-                        'Base': true,
-                        'Blueprint': false,
-                        'Deferrable': false,
-                        'Enumerated': false,
-                        'Extendable': false,
-                        'getType': false,
-                        'Identifiable': false,
-                        'InstanceofMixin': false,
-                        'logError': false,
-                        'Observable': false,
-                        'Omittable': false,
-                        'Validatable': false
-                    }
-                }
-            }, {
                 file: 'src/container.js',
                 jshint: {
                     globals: {
@@ -181,6 +163,37 @@ module.exports = function (grunt) {
                     }
                 }
             }, {
+                file: 'src/schema.js',
+                jshint: {
+                    globals: {
+                        'Array_': false,
+                        'Base': false,
+                        'ImmutableObject': false,
+                        'InstanceofMixin': false,
+                        'MutableObject': false,
+                        'Schema': true
+                    }
+                }
+            }, {
+                file: 'src/base.js',
+                jshint: {
+                    globals: {
+                        'Base': true,
+                        'Blueprint': false,
+                        'Deferrable': false,
+                        'Enumerated': false,
+                        'Extendable': false,
+                        'getType': false,
+                        'Identifiable': false,
+                        'InstanceofMixin': false,
+                        'logError': false,
+                        'Observable': false,
+                        'Omittable': false,
+                        'Schema': false,
+                        'Validatable': false
+                    }
+                }
+            }, {
                 file: 'src/core.js',
                 jshint: {
                     exported: [
@@ -202,7 +215,8 @@ module.exports = function (grunt) {
                         'InstanceofMixin': false,
                         'MutableObject': false,
                         'Observable': false,
-                        'Omittable': false
+                        'Omittable': false,
+                        'Schema': true
                     }
                 }
             }, {
@@ -297,6 +311,7 @@ module.exports = function (grunt) {
                         'test/array_spec.js',
                         'test/immutable_object_spec.js',
                         'test/mutable_object_spec.js',
+                        'test/schema_spec.js',
                         'test/mixin/identifiable_spec.js',
                         'test/mixin/observable_spec.js',
                         'test/mixin/omittable_spec.js',

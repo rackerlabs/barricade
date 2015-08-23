@@ -42,18 +42,18 @@
         */
         create: function (json, parameters) {
             var self = this.extend({}),
-                schema = self._schema;
+                schema = self.schema();
 
             self._parameters = parameters = parameters || {};
 
-            if (schema.hasOwnProperty('@inputMassager')) {
-                json = schema['@inputMassager'](json);
+            if (schema.has('inputMassager')) {
+                json = schema.get('inputMassager')(json);
             }
 
             self._setData(json);
 
-            if (schema.hasOwnProperty('@toJSON')) {
-                self.toJSON = schema['@toJSON'];
+            if (schema.has('toJSON')) {
+                self.toJSON = schema.get('toJSON');
             }
 
             Observable.call(self);
@@ -61,8 +61,8 @@
             Deferrable.call(self, schema);
             Validatable.call(self, schema);
 
-            if (schema.hasOwnProperty('@enum')) {
-                Enumerated.call(self, schema['@enum']);
+            if (schema.has('enum')) {
+                Enumerated.call(self, schema.get('enum'));
             }
 
             Identifiable.call(self, parameters.id);
@@ -81,11 +81,11 @@
         * @private
         */
         _getDefaultValue: function () {
-            return this._schema.hasOwnProperty('@default')
-                ? typeof this._schema['@default'] === 'function'
-                    ? this._schema['@default'].call(this)
-                    : this._schema['@default']
-                : this._schema['@type']();
+            return this.schema().has('default')
+                ? typeof this.schema().get('default') === 'function'
+                    ? this.schema().get('default').call(this)
+                    : this.schema().get('default')
+                : this.schema().get('type')();
         },
 
         /**
@@ -101,12 +101,12 @@
         * @private
         */
         _setData: function(json) {
-            var type = this._schema['@type'];
+            var type = this.schema().get('type');
 
             if (getType(json) !== type) {
                 if (json) {
                     logError("Type mismatch. JSON: ", json,
-                             "schema: ", this._schema);
+                             " expected type: ", type);
                 }
                 // Replace bad type (does not change original)
                 json = this._getDefaultValue();
@@ -123,6 +123,12 @@
                 ('instanceof' in instance) &&
                 instance.instanceof(class_);
         },
+
+        /**
+        * @memberof Barricade.Base
+        * @private
+        */
+        _schema: Schema,
 
         /**
         * @memberof Barricade.Base
@@ -157,7 +163,7 @@
         * @returns {constructor}
         */
         getPrimitiveType: function () {
-            return this._schema['@type'];
+            return this.schema().get('type');
         },
 
         /**
@@ -170,12 +176,12 @@
         * @returns {Boolean}
         */
         isEmpty: function () {
-            if (this._schema['@type'] === Array) {
+            if (this.getPrimitiveType() === Array) {
                 return !this._data.length;
-            } else if (this._schema['@type'] === Object) {
+            } else if (this.getPrimitiveType() === Object) {
                 return !Object.keys(this._data).length;
             }
-            return this._data === this._schema['@type']();
+            return this._data === this.getPrimitiveType()();
         },
 
 
@@ -188,7 +194,16 @@
         * @returns {Boolean}
         */
         isRequired: function () {
-            return this._schema['@required'] !== false;
+            return this.schema().get('required') !== false;
+        },
+
+        /**
+        * @memberof Barricade.Base
+        * @instance
+        * @returns {Barricade.Schema}
+        */
+        schema: function () {
+            return this._schema;
         },
 
         /**
@@ -198,10 +213,10 @@
         * @returns {self}
         */
         set: function (newVal) {
-            var schema = this._schema;
+            var schema = this.schema();
 
             function typeMatches(newVal) {
-                return getType(newVal) === schema['@type'];
+                return getType(newVal) === schema.get('type');
             }
 
             if (typeMatches(newVal) && this._validate(newVal)) {
@@ -213,7 +228,7 @@
             }
 
             logError("Setter - new value (", newVal, ")",
-                     " did not match schema: ", schema);
+                     " did not match expected type: ", schema.get('type'));
             return this;
         },
 

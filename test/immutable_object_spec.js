@@ -41,6 +41,27 @@ describe('Immutable Objects', function () {
             }
         });
 
+        this.namespace.NestedObject = Barricade.create({
+            '@type': Object,
+            'a': {
+                '@type': Object,
+                'aa': {
+                    '@type': Object,
+                    'aaa': {
+                        '@type': String
+                    }
+                }
+            }
+        });
+
+        this.nestedInstance = this.namespace.NestedObject.create({
+            'a': {
+                'aa': {
+                    'aaa': 'reallyNested'
+                }
+            }
+        });
+
         this.instance = this.namespace.FixedKeyClass.create({
             'stringKey': "foo",
             'booleanKey': true,
@@ -164,6 +185,11 @@ describe('Immutable Objects', function () {
 
     it('.getPrimitiveType() should return Object', function () {
         expect(this.instance.getPrimitiveType()).toBe(Object);
+    });
+
+    it('should work with nested objects', function () {
+        expect(this.nestedInstance.get('a').get('aa').get('aaa').get())
+            .toBe('reallyNested');
     });
 
     xit('should not have any other members', function () {

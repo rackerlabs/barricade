@@ -12,11 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @namespace */
-var Barricade = (function () {
-    "use strict";
+beforeEach(SAVE_GLOBAL_STATE);
+afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-    var Array_, Arraylike, BarricadeMain, Base, Blueprint, Container,
-        Deferrable, Deferred, Enumerated, Extendable, Identifiable,
-        ImmutableObject, InstanceofMixin, MutableObject, Observable, Omittable,
-        Schema, Validatable;
+describe('Schema', function () {
+    beforeEach(function () {
+        this.namespace = {};
+
+        this.namespace.SimpleClass = Barricade.create({
+            '@type': String
+        });
+
+        this.instance = this.namespace.SimpleClass.create('foo');
+    });
+
+    it('exists as a member of instances', function () {
+        expect(this.instance.schema().instanceof(Barricade.Schema)).toBe(true);
+    });
+});

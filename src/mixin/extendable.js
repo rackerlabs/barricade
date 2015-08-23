@@ -17,39 +17,6 @@
     * @memberof Barricade
     */
     Extendable = Blueprint.create(function () {
-        function deepClone(object) {
-            if (isPlainObject(object)) {
-                return forInKeys(object).reduce(function (clone, key) {
-                    clone[key] = deepClone(object[key]);
-                    return clone;
-                }, {});
-            }
-            return object;
-        }
-
-        function forInKeys(obj) {
-            var key, keys = [];
-            for (key in obj) { keys.push(key); }
-            return keys;
-        }
-
-        function isPlainObject(obj) {
-            return getType(obj) === Object &&
-                Object.getPrototypeOf(Object.getPrototypeOf(obj)) === null;
-        }
-
-        function merge(target, source) {
-            forInKeys(source).forEach(function (key) {
-                if (Object.prototype.hasOwnProperty.call(target, key) &&
-                        isPlainObject(target[key]) &&
-                        isPlainObject(source[key])) {
-                    merge(target[key], source[key]);
-                } else {
-                    target[key] = deepClone(source[key]);
-                }
-            });
-        }
-
         /**
         * Extends the object, returning a new object with the original object as
           its prototype.
@@ -73,8 +40,7 @@
                 }
 
                 if (schema) {
-                    extension._schema = deepClone(self._schema) || {};
-                    merge(extension._schema, schema);
+                    self._schema = self._schema.extend(self, schema);
                 }
                 return Extendable.addProps(self, extension);
             }

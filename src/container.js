@@ -82,32 +82,21 @@
         * @memberof Barricade.Container
         * @private
         */
-        this._getKeyClass = function (key) {
-            return this._schema[key].hasOwnProperty('@class')
-                ? this._schema[key]['@class']
-                : BarricadeMain.create(this._schema[key]);
-        };
-
-        /**
-        * @memberof Barricade.Container
-        * @private
-        */
         this._isCorrectType = function (instance, class_) {
             var self = this;
 
             function isRefTo() {
-                if (typeof class_._schema['@ref'].to === 'function') {
-                    return self._safeInstanceof(instance,
-                                                class_._schema['@ref'].to());
-                } else if (typeof class_._schema['@ref'].to === 'object') {
-                    return self._safeInstanceof(instance,
-                                                class_._schema['@ref'].to);
+                var ref = class_.schema().get('ref');
+                if (typeof ref.to === 'function') {
+                    return self._safeInstanceof(instance, ref.to());
+                } else if (typeof ref.to === 'object') {
+                    return self._safeInstanceof(instance, ref.to);
                 }
-                throw new Error('Ref.to was ' + class_._schema['@ref'].to);
+                throw new Error('Ref.to was ' + ref.to);
             }
 
             return this._safeInstanceof(instance, class_) ||
-                (class_._schema.hasOwnProperty('@ref') && isRefTo());
+                (class_.schema().has('ref') && isRefTo());
         };
 
         /**
@@ -115,8 +104,9 @@
         * @private
         */
         this._keyClassCreate = function (key, keyClass, json, parameters) {
-            return this._schema[key].hasOwnProperty('@factory')
-                ? this._schema[key]['@factory'](json, parameters)
+            var keyClassSchema = this.schema().keyClass(key).schema();
+            return keyClassSchema.has('factory')
+                ? keyClassSchema.get('factory')(json, parameters)
                 : keyClass.create(json, parameters);
         };
 

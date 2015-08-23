@@ -47,8 +47,9 @@
         * @private
         */
         this._sift = function (json) {
+            var elClass = this.schema().keyClass(this._elSymbol);
             return Object.keys(json).map(function (key) {
-                return this._keyClassCreate(this._elSymbol, this._elementClass,
+                return this._keyClassCreate(this._elSymbol, elClass,
                                             json[key], {id: key});
             }, this);
         };
@@ -113,7 +114,8 @@
         * @returns {self}
         */
         this.push = function (newJson, newParameters) {
-            if (!this._safeInstanceof(newJson, this._elementClass) &&
+            var elClass = this.schema().keyClass(this._elSymbol);
+            if (!this._safeInstanceof(newJson, elClass) &&
                     (getType(newParameters) !== Object ||
                     !newParameters.hasOwnProperty('id'))) {
                 logError('ID should be passed in with parameters object');

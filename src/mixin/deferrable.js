@@ -19,20 +19,20 @@
     Deferrable = Blueprint.create(function (schema) {
         var self = this,
             needed,
-            deferred = schema.hasOwnProperty('@ref')
-                ? Deferred.create(schema['@ref'].needs, getter, resolver)
+            deferred = schema.has('ref')
+                ? Deferred.create(schema.get('ref').needs, getter, resolver)
                 : null;
 
-        if (schema.hasOwnProperty('@ref') && !schema['@ref'].processor) {
-            schema['@ref'].processor = function (o) { return o.val; };
+        if (schema.has('ref') && !schema.get('ref').processor) {
+            schema.get('ref').processor = function (o) { return o.val; };
         }
 
         function getter(neededVal) {
-            return schema['@ref'].getter({standIn: self, needed: neededVal});
+            return schema.get('ref').getter({standIn: self, needed: neededVal});
         }
 
         function resolver(retrievedValue) {
-            self.emit('replace', schema['@ref'].processor({
+            self.emit('replace', schema.get('ref').processor({
                 val: retrievedValue,
                 standIn: self,
                 needed: needed
