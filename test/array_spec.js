@@ -47,14 +47,14 @@ describe('Arrays', function () {
                 return 'pretty ' + this._data;
             }
         }, {
-            '@type': String
+            $type: String
         });
 
         this.namespace.ArrayClass = Barricade.create({
-            '@type': Array,
+            $type: Array,
 
             '*': {
-                '@class': this.namespace.CustomString
+                $class: this.namespace.CustomString
             }
         });
 
@@ -117,12 +117,12 @@ describe('Arrays', function () {
 
     it('.push() should accept instances of element\'s class', function () {
         this.namespace.ArrayElement = Barricade.create({
-            '@type': String
+            $type: String
         });
 
         this.namespace.ArrayWithElementClass = Barricade.create({
-            '@type': Array,
-            '*': {'@class': this.namespace.ArrayElement}
+            $type: Array,
+            '*': {$class: this.namespace.ArrayElement}
         });
 
         this.instance4 = this.namespace.ArrayWithElementClass.create();

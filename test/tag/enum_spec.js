@@ -15,16 +15,16 @@
 beforeEach(SAVE_GLOBAL_STATE);
 afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-describe('@enum', function () {
+describe('$enum', function () {
     beforeEach(function () {
         this.stringClass = Barricade.create({
-            '@type': String,
-            '@enum': ['foo', 'bar', 'baz']
+            $type: String,
+            $enum: ['foo', 'bar', 'baz']
         });
 
         this.labelClass = Barricade.create({
-            '@type': Number,
-            '@enum': [
+            $type: Number,
+            $enum: [
                 {label: 'one', value: 1},
                 {label: 'two', value: 2},
                 {label: 'three', value: 3},
@@ -33,8 +33,8 @@ describe('@enum', function () {
         });
 
         this.functionClass = Barricade.create({
-            '@type': String,
-            '@enum': function () { return ['a', 'b', 'c']; }
+            $type: String,
+            $enum: function () { return ['a', 'b', 'c']; }
         });
 
         this.stringInstance = this.stringClass.create('foo');
@@ -133,8 +133,8 @@ describe('@enum', function () {
     it('should allow enums from functions to be updatable', function () {
         var myEnum = ['foo'],
             myClass = Barricade.create({
-                '@type': String,
-                '@enum': function () { return myEnum; }
+                $type: String,
+                $enum: function () { return myEnum; }
             }),
             myInstance = myClass.create('foo');
 
@@ -153,8 +153,8 @@ describe('@enum', function () {
     it('should pass object into enum function', function () {
         var myEnum = ['foo'],
             myClass = Barricade.create({
-                '@type': String,
-                '@enum': function () {
+                $type: String,
+                $enum: function () {
                     expect(this).toBe(myInstance);
                     return myEnum;
                 }

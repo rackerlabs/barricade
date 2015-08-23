@@ -18,18 +18,18 @@ afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 describe('Omittable', function () {
     beforeEach(function () {
         this.ObjectClass = Barricade.create({
-            '@type': Object,
-            'a': {'@type': String},
+            $type: Object,
+            'a': {$type: String},
             'b': {
-                '@type': Number,
-                '@required': false
+                $type: Number,
+                $required: false
             }
         });
 
         this.ArrayClass = Barricade.create({
-            '@type': Array,
-            '@required': false,
-            '*': {'@type': String}
+            $type: Array,
+            $required: false,
+            '*': {$type: String}
         });
 
         this.instance = this.ObjectClass.create({

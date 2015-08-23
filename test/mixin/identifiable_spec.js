@@ -20,12 +20,12 @@ describe('Identifiable', function () {
         this.namespace = {};
 
         this.namespace.ImmutableClass = Barricade.create({
-            '@type': Object,
+            $type: Object,
             'a': {
-                '@type': Number
+                $type: Number
             },
             'b': {
-                '@type': String
+                $type: String
             }
         });
 
@@ -34,9 +34,9 @@ describe('Identifiable', function () {
             .create({a: 42, b: 'some string'});
 
         this.namespace.outerContainerClass = Barricade.create({
-            '@type': Array,
+            $type: Array,
             '*': {
-                '@class': this.namespace.ImmutableClass
+                $class: this.namespace.ImmutableClass
             }
         });
 

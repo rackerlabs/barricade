@@ -15,18 +15,18 @@
 beforeEach(SAVE_GLOBAL_STATE);
 afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-describe('@ref', function () {
+describe('$ref', function () {
     beforeEach(function () {
         var self = this;
         this.namespace = {};
         this.numCalls = 0;
         this.numProcessorCalls = 0;
 
-        this.namespace.IsReferredTo = Barricade.create({'@type': Number});
+        this.namespace.IsReferredTo = Barricade.create({$type: Number});
 
         this.namespace.NeedsReference = Barricade.create({
-            '@type': String,
-            '@ref': {
+            $type: String,
+            $ref: {
                 to: this.namespace.IsReferredTo,
                 needs: function () {
                     return self.namespace.Parent;
@@ -46,8 +46,8 @@ describe('@ref', function () {
         });
 
         this.namespace.NeedsFluidReference = Barricade.create({
-            '@type': String,
-            '@ref': {
+            $type: String,
+            $ref: {
                 to: this.namespace.IsReferredTo,
                 needs: function () {
                     return self.namespace.FluidParent;
@@ -60,8 +60,8 @@ describe('@ref', function () {
         });
 
         this.namespace.NeedsFluidReference1 = Barricade.create({
-            '@type': String,
-            '@ref': {
+            $type: String,
+            $ref: {
                 to: this.namespace.IsReferredTo,
                 needs: function () {
                     return self.namespace.FluidParent1;
@@ -74,60 +74,60 @@ describe('@ref', function () {
         });
 
         this.namespace.Parent = Barricade.create({
-            '@type': Object,
-            'a': {'@class': this.namespace.NeedsReference},
-            'b': {'@class': this.namespace.IsReferredTo}
+            $type: Object,
+            'a': {$class: this.namespace.NeedsReference},
+            'b': {$class: this.namespace.IsReferredTo}
         });
 
         this.namespace.FluidParent = Barricade.create({
-            '@type': Object,
-            'b': {'@class': this.namespace.IsReferredTo},
+            $type: Object,
+            'b': {$class: this.namespace.IsReferredTo},
             'sequence': {
-                '@type': Array,
+                $type: Array,
                 '*': {
-                    '@class': this.namespace.NeedsFluidReference
+                    $class: this.namespace.NeedsFluidReference
                 }
             },
             'mapping': {
-                '@type': Object,
+                $type: Object,
                 '?': {
-                    '@class': this.namespace.NeedsFluidReference
+                    $class: this.namespace.NeedsFluidReference
                 }
             }
         });
 
         this.namespace.FluidParent1 = Barricade.create({
-            '@type': Object,
-            'b': {'@class': this.namespace.IsReferredTo},
+            $type: Object,
+            'b': {$class: this.namespace.IsReferredTo},
             'sequence': {
-                '@type': Array,
+                $type: Array,
                 '*': {
-                    '@type': Object,
+                    $type: Object,
                     'a': {
-                        '@class': this.namespace.NeedsFluidReference1
+                        $class: this.namespace.NeedsFluidReference1
                     }
                 }
             },
             'mapping': {
-                '@type': Object,
+                $type: Object,
                 '?': {
-                    '@type': Object,
+                    $type: Object,
                     'a': {
-                        '@class': this.namespace.NeedsFluidReference1
+                        $class: this.namespace.NeedsFluidReference1
                     }
                 }
             }
         });
 
         this.namespace.Parent2 = Barricade.create({
-            '@type': Object,
+            $type: Object,
             'a': {
-                '@type': Object,
+                $type: Object,
                 'b': {
-                    '@type': Object,
+                    $type: Object,
                     'c': {
-                        '@type': Number,
-                        '@ref': {
+                        $type: Number,
+                        $ref: {
                             to: this.namespace.IsReferredTo,
                             needs: function () {
                                 return self.namespace.Grandparent;
@@ -142,12 +142,12 @@ describe('@ref', function () {
         });
 
         this.namespace.Grandparent = Barricade.create({
-            '@type': Object,
+            $type: Object,
 
-            'referredTo': {'@class': this.namespace.IsReferredTo},
+            'referredTo': {$class: this.namespace.IsReferredTo},
             'refChild': {
-                '@type': Object,
-                '@ref': {
+                $type: Object,
+                $ref: {
                     to: this.namespace.Parent2,
                     needs: function () {
                         return self.namespace.Grandparent;
@@ -186,10 +186,10 @@ describe('@ref', function () {
 
     it('should resolve references when placeholders are resolved', function () {
         var numCalls = 0,
-            AClass = Barricade.create({'@type': String}),
+            AClass = Barricade.create({$type: String}),
             BClass = Barricade.create({
-                '@type': String,
-                '@ref': {
+                $type: String,
+                $ref: {
                     to: AClass,
                     needs: function () { return ContainerClass; },
                     getter: function (data) {
@@ -199,8 +199,8 @@ describe('@ref', function () {
                 }
             }),
             CClass = Barricade.create({
-                '@type': String,
-                '@ref': {
+                $type: String,
+                $ref: {
                     to: AClass,
                     needs: function () { return ContainerClass; },
                     getter: function (data) {
@@ -220,10 +220,10 @@ describe('@ref', function () {
                 }
             }),
             ContainerClass = Barricade.create({
-                '@type': Object,
-                'c': {'@class': CClass},
-                'b': {'@class': BClass},
-                'a': {'@class': AClass}
+                $type: Object,
+                'c': {$class: CClass},
+                'b': {$class: BClass},
+                'a': {$class: AClass}
             }),
             instance = ContainerClass.create({a: 'a', b: 'b', c: 'c'});
 

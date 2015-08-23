@@ -23,23 +23,23 @@ describe('Primitives', function () {
             };
 
         this.namespace.BooleanClass = Barricade.create({
-            '@type': Boolean
+            $type: Boolean
         });
 
         this.namespace.NumberClass = Barricade.create({
-            '@type': Number
+            $type: Number
         });
 
         this.namespace.StringClass = Barricade.create({
-            '@type': String
+            $type: String
         });
 
         this.namespace.ObjectClass = Barricade.create({
-            '@type': Object
+            $type: Object
         });
         
         this.namespace.ArrayClass = Barricade.create({
-            '@type': Array
+            $type: Array
         });
     });
 

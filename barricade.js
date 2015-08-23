@@ -1065,31 +1065,31 @@ var Barricade = (function () {
         * @private
         */
         _handlers: {
-            '@type': function (type) {
+            $type: function (type) {
                 this._type = type;
             },
-            '@ref': function (ref) {
+            $ref: function (ref) {
                 this._ref = ref;
             },
-            '@toJSON': function (toJSON) {
+            $toJSON: function (toJSON) {
                 this._toJSON = toJSON;
             },
-            '@enum': function (enum_) {
+            $enum: function (enum_) {
                 this._enum = enum_;
             },
-            '@default': function (default_) {
+            $default: function (default_) {
                 this._default = default_;
             },
-            '@inputMassager': function (inputMassager) {
+            $inputMassager: function (inputMassager) {
                 this._inputMassager = inputMassager;
             },
-            '@constraints': function (constraints) {
+            $constraints: function (constraints) {
                 this._constraints = constraints;
             },
-            '@required': function (required) {
+            $required: function (required) {
                 this._required = required;
             },
-            '@factory': function (factory) {
+            $factory: function (factory) {
                 this._factory = factory;
             },
             normalKey: function (key, extension, outerClass) {
@@ -1101,8 +1101,8 @@ var Barricade = (function () {
                     this._keyClassList = this._keyClassList.concat(key);
                 }
 
-                if ('@class' in extension) {
-                    this._keyClasses[key] = extension['@class'];
+                if ('$class' in extension) {
+                    this._keyClasses[key] = extension.$class;
                 } else {
                     this._keyClasses[key] = key in this._keyClasses
                         ? this._keyClasses[key].extend({}, extension)
@@ -1211,7 +1211,7 @@ var Barricade = (function () {
             var self = Object.create(this);
 
             Object.keys(extension).forEach(function (key) {
-                if (key[0] !== '@') {
+                if (key[0] !== '$') {
                     self._handlers.normalKey.call(self, key, extension[key],
                                                   outerClass);
                 } else if (key in self._handlers) {
@@ -1232,7 +1232,7 @@ var Barricade = (function () {
           @returns Value of schema key, or null if one does not exist.
         */
         get: function (key) {
-            if (('@' + key) in this._handlers) {
+            if (('$' + key) in this._handlers) {
                 return this['_' + key];
             }
             throw new Error(key + ' is an invalid key');
@@ -1246,7 +1246,7 @@ var Barricade = (function () {
           @returns {Boolean}
         */
         has: function (key) {
-            if (('@' + key) in this._handlers) {
+            if (('$' + key) in this._handlers) {
                 return this['_' + key] !== null;
             }
             throw new Error(key + ' is an invalid key');

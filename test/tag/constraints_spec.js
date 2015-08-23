@@ -15,21 +15,21 @@
 beforeEach(SAVE_GLOBAL_STATE);
 afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-describe('@constraints', function () {
+describe('$constraints', function () {
     beforeEach(function () {
         this.namespace = {};
 
         this.namespace.a = Barricade.create({
-            '@type': String,
-            '@constraints': [function (val) { 
+            $type: String,
+            $constraints: [function (val) { 
                 return val.toLowerCase() === 'a' ||
                     'Value must be "a" or "A"';
             }]
         });
 
         this.namespace.str = Barricade.create({
-            '@type': String,
-            '@constraints': [
+            $type: String,
+            $constraints: [
                 function (s) {
                     return s.length > 3 ||
                         'Value must be more than 3 letters';

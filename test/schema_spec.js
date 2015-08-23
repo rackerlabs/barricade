@@ -20,7 +20,7 @@ describe('Schema', function () {
         this.namespace = {};
 
         this.namespace.SimpleClass = Barricade.create({
-            '@type': String
+            $type: String
         });
 
         this.instance = this.namespace.SimpleClass.create('foo');

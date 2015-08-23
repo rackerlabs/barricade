@@ -24,31 +24,31 @@ describe('Immutable Objects', function () {
                 return 'pretty ' + this._data;
             }
         }, {
-            '@type': String
+            $type: String
         });
 
         this.namespace.FixedKeyClass = Barricade.create({
-            '@type': Object,
+            $type: Object,
 
             'stringKey': {
-                '@class': this.namespace.CustomString
+                $class: this.namespace.CustomString
             },
             'booleanKey': {
-                '@type': Boolean
+                $type: Boolean
             },
             'numberKey': {
-                '@type': Number
+                $type: Number
             }
         });
 
         this.namespace.NestedObject = Barricade.create({
-            '@type': Object,
+            $type: Object,
             'a': {
-                '@type': Object,
+                $type: Object,
                 'aa': {
-                    '@type': Object,
+                    $type: Object,
                     'aaa': {
-                        '@type': String
+                        $type: String
                     }
                 }
             }
@@ -77,7 +77,7 @@ describe('Immutable Objects', function () {
 
     it('should not be empty if keys are defined', function () {
         var noKeys = Barricade.Base.extend(Barricade.ImmutableObject, {
-                '@type': Object
+                $type: Object
             }).create();
 
         expect(this.instance.isEmpty()).toBe(false);
@@ -87,8 +87,8 @@ describe('Immutable Objects', function () {
 
     it('should not crash when setting value with null', function () {
         var objectKeyClass = Barricade.create({
-                '@type': Object,
-                'x': {'@class': this.namespace.FixedKeyClass}
+                $type: Object,
+                'x': {$class: this.namespace.FixedKeyClass}
             }),
             instance = objectKeyClass.create();
 

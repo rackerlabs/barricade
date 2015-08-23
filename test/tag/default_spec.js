@@ -15,13 +15,13 @@
 beforeEach(SAVE_GLOBAL_STATE);
 afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-describe('@default', function () {
+describe('$default', function () {
     beforeEach(function () {
         this.namespace = {};
 
         this.namespace.a = Barricade.create({
-            '@type': String,
-            '@default': 'a'
+            $type: String,
+            $default: 'a'
         });
 
         this.a = this.namespace.a.create();
@@ -44,8 +44,8 @@ describe('@default', function () {
     describe('Using functions', function () {
         beforeEach(function () {
             this.namespace.defaultArray = Barricade.create({
-                '@type': Array,
-                '@default': function () {
+                $type: Array,
+                $default: function () {
                     return [1, 2, 3];
                 }
             });

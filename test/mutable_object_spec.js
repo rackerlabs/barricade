@@ -24,14 +24,14 @@ describe('Mutable Objects', function () {
                 return 'pretty ' + this._data;
             }
         }, {
-            '@type': String
+            $type: String
         });
 
         this.namespace.WildClass = Barricade.create({
-            '@type': Object,
+            $type: Object,
 
             '?': {
-                '@class': this.namespace.CustomString
+                $class: this.namespace.CustomString
             }
         });
 
@@ -122,12 +122,12 @@ describe('Mutable Objects', function () {
 
     it('nested class should accept id in parameters', function () {
         this.namespace.NestedClass = Barricade.create({
-            '@type': String
+            $type: String
         });
 
         this.namespace.WildClass2 = Barricade.create({
-            '@type': Object,
-            '?': {'@class': this.namespace.NestedClass}
+            $type: Object,
+            '?': {$class: this.namespace.NestedClass}
         });
 
         this.instance2 = this.namespace.WildClass2.create({

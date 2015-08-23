@@ -15,27 +15,27 @@
 beforeEach(SAVE_GLOBAL_STATE);
 afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
-describe('@required', function () {
+describe('$required', function () {
     beforeEach(function () {
         this.namespace = {};
 
         this.namespace.FixedKeyClass = Barricade.create({
-            '@type': Object,
+            $type: Object,
 
             'stringKeyExplicit': {
-                '@type': String,
-                '@required': true
+                $type: String,
+                $required: true
             },
             'stringKeyImplicit': {
-                '@type': String
+                $type: String
             },
             'booleanKey': {
-                '@type': Boolean,
-                '@required': false
+                $type: Boolean,
+                $required: false
             },
             'numberKey': {
-                '@type': Number,
-                '@required': false
+                $type: Number,
+                $required: false
             }
         });
 
