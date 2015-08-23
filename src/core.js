@@ -54,7 +54,7 @@
         'Omittable': Omittable,
         'Schema': Schema,
         'define': function (schema) {
-            return Base.extend({}, schema);
+            return Base.extend(schema);
         }
     };
 

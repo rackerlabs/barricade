@@ -64,30 +64,39 @@ var Barricade = (function () {
     Extendable = Blueprint.create(function () {
         /**
         * Extends the object, returning a new object with the original object as
-          its prototype.
+          its prototype. This does not modify the original object.
         * @method extend
         * @memberof Barricade.Extendable
         * @instance
-        * @param {Object} extension A set of properties to add to the new
-                 object.
-        * @param {Object} [schema] Barricade schema.
+        * @param {Object} props
+                 A set of properties and/or schema keywords to add to the new
+                 object or schema, respectively.
         * @returns {Object}
         */
         return Object.defineProperty(this, 'extend', {
             enumerable: false,
             writable: false,
-            value: function (extension, schema) {
-                var self = Object.create(this);
+            value: function (props) {
+                var self = Object.create(this),
+                    schema = {};
 
-                if (getType(extension) === Function) {
-                    self = extension.call(self);
-                    extension = {};
+                if (getType(props) === Function) {
+                    self = props.call(self);
+                    props = {};
                 }
 
-                if (schema) {
-                    self._schema = self._schema.extend(self, schema);
-                }
-                return Extendable.addProps(self, extension);
+                props = Object.keys(props).reduce(function (objOut, key) {
+                    if (key[0] === '$') {
+                        schema[key] = props[key];
+                    } else {
+                        objOut[key] = props[key];
+                    }
+                    return objOut;
+                }, {});
+
+                self._schema = self._schema.extend(self, schema);
+
+                return Extendable.addProps(self, props);
             }
         });
     });
@@ -1109,8 +1118,8 @@ var Barricade = (function () {
                     this._keyClasses[key] = extension.$class;
                 } else {
                     this._keyClasses[key] = key in this._keyClasses
-                        ? this._keyClasses[key].extend({}, extension)
-                        : Base.extend({}, extension);
+                        ? this._keyClasses[key].extend(extension)
+                        : Base.extend(extension);
                 }
 
                 if (key !== '$$') {
@@ -1583,7 +1592,7 @@ var Barricade = (function () {
         'Omittable': Omittable,
         'Schema': Schema,
         'define': function (schema) {
-            return Base.extend({}, schema);
+            return Base.extend(schema);
         }
     };
 

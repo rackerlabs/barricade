@@ -42,11 +42,10 @@ describe('Arrays', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.CustomString = Barricade.Base.extend({
+        this.namespace.CustomString = Barricade.define({
             _getPrettyJSON: function() {
                 return 'pretty ' + this._data;
-            }
-        }, {
+            },
             $type: String
         });
 

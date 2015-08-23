@@ -18,41 +18,38 @@ afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 describe('Extendable', function () {
     beforeEach(function () {
         this.BaseClass = Barricade.define({});
-        this.ArraySubclass = this.BaseClass.extend({}, {$type: Array});
-        this.ObjectSubclass = this.BaseClass.extend({}, {$type: Object});
+        this.ArraySubclass = this.BaseClass.extend({$type: Array});
+        this.ObjectSubclass = this.BaseClass.extend({$type: Object});
 
-        this.RealArraySubclass = this.ArraySubclass.extend({}, {
+        this.RealArraySubclass = this.ArraySubclass.extend({
             $$: {$type: Object}
         });
-        this.ImmutableSubclass = this.ObjectSubclass.extend({}, {
+        this.ImmutableSubclass = this.ObjectSubclass.extend({
             $$key: {$type: String}
         });
-        this.MutableSubclass = this.ObjectSubclass.extend({}, {
+        this.MutableSubclass = this.ObjectSubclass.extend({
             $$: {$type: Array}
         });
 
         this.ArrayIntermediate = this.RealArraySubclass.extend({
-            push: function () {}
-        }, {
+            push: function () {},
             $$: {$required: false}
         });
         this.ImmutableIntermediate = this.ImmutableSubclass.extend({
-            getKeys: function () {}
-        }, {
+            getKeys: function () {},
             $$key: {$required: false}
         });
         this.MutableIntermediate = this.MutableSubclass.extend({
-            push: function () {}
-        }, {
+            push: function () {},
             $$: {$required: false}
         });
-        this.ArraySubSub = this.ArrayIntermediate.extend({}, {
+        this.ArraySubSub = this.ArrayIntermediate.extend({
             $$: {$default: {}}
         });
-        this.ImmutableSubSub = this.ImmutableIntermediate.extend({}, {
+        this.ImmutableSubSub = this.ImmutableIntermediate.extend({
             $$key: {$default: ''}
         });
-        this.MutableSubSub = this.MutableIntermediate.extend({}, {
+        this.MutableSubSub = this.MutableIntermediate.extend({
             $$: {$default: []}
         });
 
@@ -70,7 +67,7 @@ describe('Extendable', function () {
             $$a: {$type: String},
             $$c: {$type: Object}
         }),
-        ExtendedClass = ObjectClass.extend({}, {
+        ExtendedClass = ObjectClass.extend({
             $$b: {$type: Number},
             $$c: {$$cc: {$type: Boolean}}
         }),

@@ -22,8 +22,7 @@ describe('Immutable Objects', function () {
         this.namespace.CustomString = Barricade.Base.extend({
             _getPrettyJSON: function() {
                 return 'pretty ' + this._data;
-            }
-        }, {
+            },
             $type: String
         });
 
@@ -76,7 +75,7 @@ describe('Immutable Objects', function () {
     });
 
     it('should not be empty if keys are defined', function () {
-        var noKeys = Barricade.Base.extend(Barricade.ImmutableObject, {
+        var noKeys = Barricade.Base.extend(Barricade.ImmutableObject).extend({
                 $type: Object
             }).create();
 

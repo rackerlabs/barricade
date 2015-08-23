@@ -72,8 +72,8 @@
                     this._keyClasses[key] = extension.$class;
                 } else {
                     this._keyClasses[key] = key in this._keyClasses
-                        ? this._keyClasses[key].extend({}, extension)
-                        : Base.extend({}, extension);
+                        ? this._keyClasses[key].extend(extension)
+                        : Base.extend(extension);
                 }
 
                 if (key !== '$$') {
