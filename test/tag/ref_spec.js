@@ -22,9 +22,9 @@ describe('$ref', function () {
         this.numCalls = 0;
         this.numProcessorCalls = 0;
 
-        this.namespace.IsReferredTo = Barricade.create({$type: Number});
+        this.namespace.IsReferredTo = Barricade.define({$type: Number});
 
-        this.namespace.NeedsReference = Barricade.create({
+        this.namespace.NeedsReference = Barricade.define({
             $type: String,
             $ref: {
                 to: this.namespace.IsReferredTo,
@@ -45,7 +45,7 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.NeedsFluidReference = Barricade.create({
+        this.namespace.NeedsFluidReference = Barricade.define({
             $type: String,
             $ref: {
                 to: this.namespace.IsReferredTo,
@@ -59,7 +59,7 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.NeedsFluidReference1 = Barricade.create({
+        this.namespace.NeedsFluidReference1 = Barricade.define({
             $type: String,
             $ref: {
                 to: this.namespace.IsReferredTo,
@@ -73,13 +73,13 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.Parent = Barricade.create({
+        this.namespace.Parent = Barricade.define({
             $type: Object,
             'a': {$class: this.namespace.NeedsReference},
             'b': {$class: this.namespace.IsReferredTo}
         });
 
-        this.namespace.FluidParent = Barricade.create({
+        this.namespace.FluidParent = Barricade.define({
             $type: Object,
             'b': {$class: this.namespace.IsReferredTo},
             'sequence': {
@@ -96,7 +96,7 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.FluidParent1 = Barricade.create({
+        this.namespace.FluidParent1 = Barricade.define({
             $type: Object,
             'b': {$class: this.namespace.IsReferredTo},
             'sequence': {
@@ -119,7 +119,7 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.Parent2 = Barricade.create({
+        this.namespace.Parent2 = Barricade.define({
             $type: Object,
             'a': {
                 $type: Object,
@@ -141,7 +141,7 @@ describe('$ref', function () {
             }
         });
 
-        this.namespace.Grandparent = Barricade.create({
+        this.namespace.Grandparent = Barricade.define({
             $type: Object,
 
             'referredTo': {$class: this.namespace.IsReferredTo},
@@ -186,8 +186,8 @@ describe('$ref', function () {
 
     it('should resolve references when placeholders are resolved', function () {
         var numCalls = 0,
-            AClass = Barricade.create({$type: String}),
-            BClass = Barricade.create({
+            AClass = Barricade.define({$type: String}),
+            BClass = Barricade.define({
                 $type: String,
                 $ref: {
                     to: AClass,
@@ -198,7 +198,7 @@ describe('$ref', function () {
                     }
                 }
             }),
-            CClass = Barricade.create({
+            CClass = Barricade.define({
                 $type: String,
                 $ref: {
                     to: AClass,
@@ -219,7 +219,7 @@ describe('$ref', function () {
                     }
                 }
             }),
-            ContainerClass = Barricade.create({
+            ContainerClass = Barricade.define({
                 $type: Object,
                 'c': {$class: CClass},
                 'b': {$class: BClass},

@@ -19,7 +19,7 @@ describe('$required', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.FixedKeyClass = Barricade.create({
+        this.namespace.FixedKeyClass = Barricade.define({
             $type: Object,
 
             'stringKeyExplicit': {

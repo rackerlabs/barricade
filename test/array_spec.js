@@ -50,7 +50,7 @@ describe('Arrays', function () {
             $type: String
         });
 
-        this.namespace.ArrayClass = Barricade.create({
+        this.namespace.ArrayClass = Barricade.define({
             $type: Array,
 
             '*': {
@@ -116,11 +116,11 @@ describe('Arrays', function () {
     });
 
     it('.push() should accept instances of element\'s class', function () {
-        this.namespace.ArrayElement = Barricade.create({
+        this.namespace.ArrayElement = Barricade.define({
             $type: String
         });
 
-        this.namespace.ArrayWithElementClass = Barricade.create({
+        this.namespace.ArrayWithElementClass = Barricade.define({
             $type: Array,
             '*': {$class: this.namespace.ArrayElement}
         });

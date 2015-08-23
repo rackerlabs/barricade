@@ -17,7 +17,7 @@ afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
 describe('Extendable', function () {
     beforeEach(function () {
-        this.BaseClass = Barricade.create({});
+        this.BaseClass = Barricade.define({});
         this.ArraySubclass = this.BaseClass.extend({}, {$type: Array});
         this.ObjectSubclass = this.BaseClass.extend({}, {$type: Object});
 
@@ -65,7 +65,7 @@ describe('Extendable', function () {
     });
 
     it('should allow schema to be extended', function () {
-        var ObjectClass = Barricade.create({
+        var ObjectClass = Barricade.define({
             $type: Object,
             'a': {$type: String},
             'c': {$type: Object}

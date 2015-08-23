@@ -38,7 +38,7 @@ describe('Observable', function () {
             instance,
             change = getCallback('change', calls);
 
-        namespace.SimpleString = Barricade.create({
+        namespace.SimpleString = Barricade.define({
             $type: String
         });
 
@@ -54,7 +54,7 @@ describe('Observable', function () {
     });
 
     it('.off during .emit should not cause skipped callbacks', function () {
-        var StringClass = Barricade.create({$type: String}),
+        var StringClass = Barricade.define({$type: String}),
             calls = [false, false, false, false],
             instance = StringClass.create('');
 
@@ -86,7 +86,7 @@ describe('Observable', function () {
             this.namespace = {};
             this.calls = {};
 
-            this.namespace.ArrayClass = Barricade.create({
+            this.namespace.ArrayClass = Barricade.define({
                 $type: Array,
                 '*': {$type: String}
             });
@@ -138,7 +138,7 @@ describe('Observable', function () {
         beforeEach(function () {
             this.namespace = {};
 
-            this.namespace.MutableObjectClass = Barricade.create({
+            this.namespace.MutableObjectClass = Barricade.define({
                 $type: Object,
                 '?': {$type: String}
             });
@@ -170,7 +170,7 @@ describe('Observable', function () {
             this.namespace = {};
             this.calls = {};
 
-            this.namespace.NestedObject = Barricade.create({
+            this.namespace.NestedObject = Barricade.define({
                 $type: Object,
                 'a': {
                     $type: Object,

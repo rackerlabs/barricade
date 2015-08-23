@@ -27,7 +27,7 @@ describe('Immutable Objects', function () {
             $type: String
         });
 
-        this.namespace.FixedKeyClass = Barricade.create({
+        this.namespace.FixedKeyClass = Barricade.define({
             $type: Object,
 
             'stringKey': {
@@ -41,7 +41,7 @@ describe('Immutable Objects', function () {
             }
         });
 
-        this.namespace.NestedObject = Barricade.create({
+        this.namespace.NestedObject = Barricade.define({
             $type: Object,
             'a': {
                 $type: Object,
@@ -86,7 +86,7 @@ describe('Immutable Objects', function () {
     });
 
     it('should not crash when setting value with null', function () {
-        var objectKeyClass = Barricade.create({
+        var objectKeyClass = Barricade.define({
                 $type: Object,
                 'x': {$class: this.namespace.FixedKeyClass}
             }),

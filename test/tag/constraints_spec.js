@@ -19,7 +19,7 @@ describe('$constraints', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.a = Barricade.create({
+        this.namespace.a = Barricade.define({
             $type: String,
             $constraints: [function (val) { 
                 return val.toLowerCase() === 'a' ||
@@ -27,7 +27,7 @@ describe('$constraints', function () {
             }]
         });
 
-        this.namespace.str = Barricade.create({
+        this.namespace.str = Barricade.define({
             $type: String,
             $constraints: [
                 function (s) {

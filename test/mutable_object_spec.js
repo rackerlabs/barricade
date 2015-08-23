@@ -27,7 +27,7 @@ describe('Mutable Objects', function () {
             $type: String
         });
 
-        this.namespace.WildClass = Barricade.create({
+        this.namespace.WildClass = Barricade.define({
             $type: Object,
 
             '?': {
@@ -121,11 +121,11 @@ describe('Mutable Objects', function () {
     });
 
     it('nested class should accept id in parameters', function () {
-        this.namespace.NestedClass = Barricade.create({
+        this.namespace.NestedClass = Barricade.define({
             $type: String
         });
 
-        this.namespace.WildClass2 = Barricade.create({
+        this.namespace.WildClass2 = Barricade.define({
             $type: Object,
             '?': {$class: this.namespace.NestedClass}
         });

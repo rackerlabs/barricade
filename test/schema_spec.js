@@ -19,7 +19,7 @@ describe('Schema', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.SimpleClass = Barricade.create({
+        this.namespace.SimpleClass = Barricade.define({
             $type: String
         });
 

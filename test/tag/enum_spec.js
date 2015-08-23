@@ -17,12 +17,12 @@ afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
 describe('$enum', function () {
     beforeEach(function () {
-        this.stringClass = Barricade.create({
+        this.stringClass = Barricade.define({
             $type: String,
             $enum: ['foo', 'bar', 'baz']
         });
 
-        this.labelClass = Barricade.create({
+        this.labelClass = Barricade.define({
             $type: Number,
             $enum: [
                 {label: 'one', value: 1},
@@ -32,7 +32,7 @@ describe('$enum', function () {
             ]
         });
 
-        this.functionClass = Barricade.create({
+        this.functionClass = Barricade.define({
             $type: String,
             $enum: function () { return ['a', 'b', 'c']; }
         });
@@ -132,7 +132,7 @@ describe('$enum', function () {
 
     it('should allow enums from functions to be updatable', function () {
         var myEnum = ['foo'],
-            myClass = Barricade.create({
+            myClass = Barricade.define({
                 $type: String,
                 $enum: function () { return myEnum; }
             }),
@@ -152,7 +152,7 @@ describe('$enum', function () {
 
     it('should pass object into enum function', function () {
         var myEnum = ['foo'],
-            myClass = Barricade.create({
+            myClass = Barricade.define({
                 $type: String,
                 $enum: function () {
                     expect(this).toBe(myInstance);

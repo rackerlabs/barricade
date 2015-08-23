@@ -53,7 +53,7 @@
         'Observable': Observable,
         'Omittable': Omittable,
         'Schema': Schema,
-        'create': function (schema) {
+        'define': function (schema) {
             return Base.extend({}, schema);
         }
     };

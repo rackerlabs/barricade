@@ -19,7 +19,7 @@ describe('$default', function () {
     beforeEach(function () {
         this.namespace = {};
 
-        this.namespace.a = Barricade.create({
+        this.namespace.a = Barricade.define({
             $type: String,
             $default: 'a'
         });
@@ -43,7 +43,7 @@ describe('$default', function () {
 
     describe('Using functions', function () {
         beforeEach(function () {
-            this.namespace.defaultArray = Barricade.create({
+            this.namespace.defaultArray = Barricade.define({
                 $type: Array,
                 $default: function () {
                     return [1, 2, 3];

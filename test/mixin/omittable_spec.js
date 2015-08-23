@@ -17,7 +17,7 @@ afterEach(ENSURE_GLOBAL_OBJECT_UNPOLLUTED);
 
 describe('Omittable', function () {
     beforeEach(function () {
-        this.ObjectClass = Barricade.create({
+        this.ObjectClass = Barricade.define({
             $type: Object,
             'a': {$type: String},
             'b': {
@@ -26,7 +26,7 @@ describe('Omittable', function () {
             }
         });
 
-        this.ArrayClass = Barricade.create({
+        this.ArrayClass = Barricade.define({
             $type: Array,
             $required: false,
             '*': {$type: String}

@@ -22,23 +22,23 @@ describe('Primitives', function () {
                 existingMember2: "foo"
             };
 
-        this.namespace.BooleanClass = Barricade.create({
+        this.namespace.BooleanClass = Barricade.define({
             $type: Boolean
         });
 
-        this.namespace.NumberClass = Barricade.create({
+        this.namespace.NumberClass = Barricade.define({
             $type: Number
         });
 
-        this.namespace.StringClass = Barricade.create({
+        this.namespace.StringClass = Barricade.define({
             $type: String
         });
 
-        this.namespace.ObjectClass = Barricade.create({
+        this.namespace.ObjectClass = Barricade.define({
             $type: Object
         });
         
-        this.namespace.ArrayClass = Barricade.create({
+        this.namespace.ArrayClass = Barricade.define({
             $type: Array
         });
     });
