@@ -30,7 +30,7 @@ describe('Mutable Objects', function () {
         this.namespace.WildClass = Barricade.define({
             $type: Object,
 
-            '?': {
+            $$: {
                 $class: this.namespace.CustomString
             }
         });
@@ -127,7 +127,7 @@ describe('Mutable Objects', function () {
 
         this.namespace.WildClass2 = Barricade.define({
             $type: Object,
-            '?': {$class: this.namespace.NestedClass}
+            $$: {$class: this.namespace.NestedClass}
         });
 
         this.instance2 = this.namespace.WildClass2.create({

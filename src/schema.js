@@ -60,6 +60,10 @@
                     this._keyClasses = Object.create(this._keyClasses);
                 }
 
+                if (key !== '$$') {
+                    key = key.substring(2);
+                }
+
                 if (!(key in this._keyClasses)) {
                     this._keyClassList = this._keyClassList.concat(key);
                 }
@@ -72,12 +76,15 @@
                         : Base.extend({}, extension);
                 }
 
-                if (key === '*') {
+                if (key !== '$$') {
+                    this._applyBlueprintIfNeeded(outerClass, ImmutableObject);
+                } else if (this._type === Array) {
                     this._applyBlueprintIfNeeded(outerClass, Array_);
-                } else if (key === '?') {
+                } else if (this._type === Object) {
                     this._applyBlueprintIfNeeded(outerClass, MutableObject);
                 } else {
-                    this._applyBlueprintIfNeeded(outerClass, ImmutableObject);
+                    throw new Error('$type must be defined as Array or Object' +
+                        ' for $$ to be used. $type was ' + this._type);
                 }
             }
         },
@@ -171,17 +178,22 @@
                    New Schema object that inherits from the one being extended.
         */
         extend: function (outerClass, extension) {
-            var self = Object.create(this);
+            var self = Object.create(this),
+                normalKeys = [];
 
             Object.keys(extension).forEach(function (key) {
-                if (key[0] !== '$') {
-                    self._handlers.normalKey.call(self, key, extension[key],
-                                                  outerClass);
+                if (key[1] === '$') {
+                    normalKeys.push(key);
                 } else if (key in self._handlers) {
                     self._handlers[key].call(self, extension[key], outerClass);
                 } else {
                     throw new Error(key + ' is not a supported key.');
                 }
+            });
+
+            normalKeys.forEach(function (key) {
+                self._handlers.normalKey.call(self, key, extension[key],
+                                              outerClass);
             });
 
             return self;

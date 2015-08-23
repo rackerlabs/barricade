@@ -22,38 +22,38 @@ describe('Extendable', function () {
         this.ObjectSubclass = this.BaseClass.extend({}, {$type: Object});
 
         this.RealArraySubclass = this.ArraySubclass.extend({}, {
-            '*': {$type: Object}
+            $$: {$type: Object}
         });
         this.ImmutableSubclass = this.ObjectSubclass.extend({}, {
-            'key': {$type: String}
+            $$key: {$type: String}
         });
         this.MutableSubclass = this.ObjectSubclass.extend({}, {
-            '?': {$type: Array}
+            $$: {$type: Array}
         });
 
         this.ArrayIntermediate = this.RealArraySubclass.extend({
             push: function () {}
         }, {
-            '*': {$required: false}
+            $$: {$required: false}
         });
         this.ImmutableIntermediate = this.ImmutableSubclass.extend({
             getKeys: function () {}
         }, {
-            'key': {$required: false}
+            $$key: {$required: false}
         });
         this.MutableIntermediate = this.MutableSubclass.extend({
             push: function () {}
         }, {
-            '?': {$required: false}
+            $$: {$required: false}
         });
         this.ArraySubSub = this.ArrayIntermediate.extend({}, {
-            '*': {$default: {}}
+            $$: {$default: {}}
         });
         this.ImmutableSubSub = this.ImmutableIntermediate.extend({}, {
-            'key': {$default: ''}
+            $$key: {$default: ''}
         });
         this.MutableSubSub = this.MutableIntermediate.extend({}, {
-            '?': {$default: []}
+            $$: {$default: []}
         });
 
         this.arrayInstance = this.ArraySubclass.create(['a', 'b', 'c']);
@@ -67,12 +67,12 @@ describe('Extendable', function () {
     it('should allow schema to be extended', function () {
         var ObjectClass = Barricade.define({
             $type: Object,
-            'a': {$type: String},
-            'c': {$type: Object}
+            $$a: {$type: String},
+            $$c: {$type: Object}
         }),
         ExtendedClass = ObjectClass.extend({}, {
-            'b': {$type: Number},
-            'c': {'cc': {$type: Boolean}}
+            $$b: {$type: Number},
+            $$c: {$$cc: {$type: Boolean}}
         }),
         instance = ExtendedClass.create({
             'a': 'foo',

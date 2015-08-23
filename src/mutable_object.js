@@ -25,7 +25,7 @@
         * @memberof Barricade.MutableObject
         * @private
         */
-        this._elSymbol = '?';
+        this._elSymbol = '$$';
 
         /**
         * @memberof Barricade.MutableObject

@@ -53,7 +53,7 @@ describe('Arrays', function () {
         this.namespace.ArrayClass = Barricade.define({
             $type: Array,
 
-            '*': {
+            $$: {
                 $class: this.namespace.CustomString
             }
         });
@@ -122,7 +122,7 @@ describe('Arrays', function () {
 
         this.namespace.ArrayWithElementClass = Barricade.define({
             $type: Array,
-            '*': {$class: this.namespace.ArrayElement}
+            $$: {$class: this.namespace.ArrayElement}
         });
 
         this.instance4 = this.namespace.ArrayWithElementClass.create();

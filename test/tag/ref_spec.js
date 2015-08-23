@@ -75,22 +75,22 @@ describe('$ref', function () {
 
         this.namespace.Parent = Barricade.define({
             $type: Object,
-            'a': {$class: this.namespace.NeedsReference},
-            'b': {$class: this.namespace.IsReferredTo}
+            $$a: {$class: this.namespace.NeedsReference},
+            $$b: {$class: this.namespace.IsReferredTo}
         });
 
         this.namespace.FluidParent = Barricade.define({
             $type: Object,
-            'b': {$class: this.namespace.IsReferredTo},
-            'sequence': {
+            $$b: {$class: this.namespace.IsReferredTo},
+            $$sequence: {
                 $type: Array,
-                '*': {
+                $$: {
                     $class: this.namespace.NeedsFluidReference
                 }
             },
-            'mapping': {
+            $$mapping: {
                 $type: Object,
-                '?': {
+                $$: {
                     $class: this.namespace.NeedsFluidReference
                 }
             }
@@ -98,21 +98,21 @@ describe('$ref', function () {
 
         this.namespace.FluidParent1 = Barricade.define({
             $type: Object,
-            'b': {$class: this.namespace.IsReferredTo},
-            'sequence': {
+            $$b: {$class: this.namespace.IsReferredTo},
+            $$sequence: {
                 $type: Array,
-                '*': {
+                $$: {
                     $type: Object,
-                    'a': {
+                    $$a: {
                         $class: this.namespace.NeedsFluidReference1
                     }
                 }
             },
-            'mapping': {
+            $$mapping: {
                 $type: Object,
-                '?': {
+                $$: {
                     $type: Object,
-                    'a': {
+                    $$a: {
                         $class: this.namespace.NeedsFluidReference1
                     }
                 }
@@ -121,11 +121,11 @@ describe('$ref', function () {
 
         this.namespace.Parent2 = Barricade.define({
             $type: Object,
-            'a': {
+            $$a: {
                 $type: Object,
-                'b': {
+                $$b: {
                     $type: Object,
-                    'c': {
+                    $$c: {
                         $type: Number,
                         $ref: {
                             to: this.namespace.IsReferredTo,
@@ -144,8 +144,8 @@ describe('$ref', function () {
         this.namespace.Grandparent = Barricade.define({
             $type: Object,
 
-            'referredTo': {$class: this.namespace.IsReferredTo},
-            'refChild': {
+            $$referredTo: {$class: this.namespace.IsReferredTo},
+            $$refChild: {
                 $type: Object,
                 $ref: {
                     to: this.namespace.Parent2,
@@ -221,9 +221,9 @@ describe('$ref', function () {
             }),
             ContainerClass = Barricade.define({
                 $type: Object,
-                'c': {$class: CClass},
-                'b': {$class: BClass},
-                'a': {$class: AClass}
+                $$c: {$class: CClass},
+                $$b: {$class: BClass},
+                $$a: {$class: AClass}
             }),
             instance = ContainerClass.create({a: 'a', b: 'b', c: 'c'});
 

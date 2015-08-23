@@ -22,18 +22,18 @@ describe('$required', function () {
         this.namespace.FixedKeyClass = Barricade.define({
             $type: Object,
 
-            'stringKeyExplicit': {
+            $$stringKeyExplicit: {
                 $type: String,
                 $required: true
             },
-            'stringKeyImplicit': {
+            $$stringKeyImplicit: {
                 $type: String
             },
-            'booleanKey': {
+            $$booleanKey: {
                 $type: Boolean,
                 $required: false
             },
-            'numberKey': {
+            $$numberKey: {
                 $type: Number,
                 $required: false
             }

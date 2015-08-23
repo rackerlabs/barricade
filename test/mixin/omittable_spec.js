@@ -19,8 +19,8 @@ describe('Omittable', function () {
     beforeEach(function () {
         this.ObjectClass = Barricade.define({
             $type: Object,
-            'a': {$type: String},
-            'b': {
+            $$a: {$type: String},
+            $$b: {
                 $type: Number,
                 $required: false
             }
@@ -29,7 +29,7 @@ describe('Omittable', function () {
         this.ArrayClass = Barricade.define({
             $type: Array,
             $required: false,
-            '*': {$type: String}
+            $$: {$type: String}
         });
 
         this.instance = this.ObjectClass.create({

@@ -88,7 +88,7 @@ describe('Observable', function () {
 
             this.namespace.ArrayClass = Barricade.define({
                 $type: Array,
-                '*': {$type: String}
+                $$: {$type: String}
             });
 
             this.instance = this.namespace
@@ -140,7 +140,7 @@ describe('Observable', function () {
 
             this.namespace.MutableObjectClass = Barricade.define({
                 $type: Object,
-                '?': {$type: String}
+                $$: {$type: String}
             });
 
             this.instance = this.namespace.MutableObjectClass.create({
@@ -172,11 +172,11 @@ describe('Observable', function () {
 
             this.namespace.NestedObject = Barricade.define({
                 $type: Object,
-                'a': {
+                $$a: {
                     $type: Object,
-                    'aa': {
+                    $$aa: {
                         $type: Object,
-                        'aaa': {
+                        $$aaa: {
                             $type: String
                         }
                     }

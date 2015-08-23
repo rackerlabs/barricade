@@ -40,7 +40,7 @@
         * @memberof Barricade.Arraylike
         * @private
         */
-        this._elSymbol = '*';
+        this._elSymbol = '$$';
 
         /**
         * @memberof Barricade.Arraylike
